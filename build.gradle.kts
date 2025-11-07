@@ -6,7 +6,7 @@ plugins {
 }
 
 // TODO: Update the group to yours
-group = "com.mythicalgames.base"
+group = "com.mythicalgames.ranks"
 // TODO: Update the description to yours
 description = "Rollout to AllayMC - The greatest MCBE server software OAT"
 version = "1.0.0"
@@ -27,6 +27,8 @@ dependencies {
     compileOnly(group = "org.allaymc.allay", name = "api", version = "0.16.0")
     compileOnly(group = "org.projectlombok", name = "lombok", version = "1.18.34")
     implementation("eu.okaeri:okaeri-configs-yaml-snakeyaml:6.0.0-beta.1")
+    implementation("org.mongodb:mongodb-driver-sync:4.7.1")
+    implementation("org.xerial:sqlite-jdbc:3.45.1.0") 
 
     annotationProcessor(group = "org.projectlombok", name = "lombok", version = "1.18.34")
 }
