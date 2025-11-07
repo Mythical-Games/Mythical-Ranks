@@ -1,8 +1,8 @@
 {
-  "entrance": "com.mythicalgames.base.Loader",
-  "name": "AllayBasePlugin",
-  "authors": ["ACKTAR", "DAOGE_CMD"],
+  "entrance": "com.mythicalgames.ranks.RankSystem",
+  "name": "Mythical-Ranks",
+  "authors": ["ACKTAR"],
   "version": "1.0.0",
   "api_version": ">=0.12.0",
-  "description": "A simple plugin for AllayMC!"
+  "description": "A simple ranks plugin for AllayMC!"
 }
