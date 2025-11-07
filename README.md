@@ -1,4 +1,4 @@
-# Mythical Ranks Plugin
+# Mythical Ranks
 
 Mythical Ranks is a simple groups plugin for AllayMC to enhance your ranking system. With this plugin, you can create, manage, and customize ranks, giving players unique perks and rewards as they progress through your server.
 
