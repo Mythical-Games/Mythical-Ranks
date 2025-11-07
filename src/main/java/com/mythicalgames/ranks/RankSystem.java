@@ -1,10 +1,14 @@
 package com.mythicalgames.ranks;
 
 import lombok.extern.slf4j.Slf4j;
+
 import org.allaymc.api.plugin.Plugin;
 import org.allaymc.api.registry.Registries;
 import org.allaymc.api.server.Server;
+import org.allaymc.papi.PlaceholderAPI;
+import org.allaymc.papi.PlaceholderProcessor;
 
+import com.mythicalgames.ranks.api.GroupsAPIManager;
 import com.mythicalgames.ranks.commands.GroupsCommand;
 import com.mythicalgames.ranks.database.DatabaseHandler;
 import com.mythicalgames.ranks.database.SQLiteHandler;
@@ -40,8 +44,20 @@ public class RankSystem extends Plugin {
     @Override
     public void onEnable() {
         initializeDatabase();
+        GroupsAPIManager.initialize(config);
+        
         RankHelper.setDatabaseHandler(database);
         RankHelper.ensureDefaultGroup(config);
+
+        // https://github.com/AllayMC/PlaceholderAPI
+        PlaceholderProcessor processor = (player, input) -> {
+            String prefix = RankHelper.getPlayerGroupPrefixAsync(player, getInstance().config).join();
+            return prefix;
+        };
+
+        boolean success = PlaceholderAPI.getAPI().registerPlaceholder(instance, "group", processor);
+
+        if (success) log.info("Mythical-Ranks placeholders registered successfully!");
 
         Server.getInstance().getEventBus().registerListener(new PlayerListener());
         Registries.COMMANDS.register(new GroupsCommand(this));
@@ -75,5 +91,9 @@ public class RankSystem extends Plugin {
 
     public static RankSystem getInstance() {
         return instance;
+    }
+
+    public static GroupsAPIManager getAPI() {
+        return GroupsAPIManager.getAPI();
     }
 }

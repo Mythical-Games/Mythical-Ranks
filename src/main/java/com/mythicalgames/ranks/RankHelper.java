@@ -265,4 +265,20 @@ public class RankHelper {
         return true;
     }
 
+    // GET THE PLAYER GROUP PREFIX FOR PAPI SUPPORT
+    public CompletableFuture<String> getPlayerGroupPrefixAsync(EntityPlayer player, Config config) {
+        return RankHelper.getOrCreatePermissible(player, config)
+                .thenApply(permissible -> {
+                    PermissionGroup group = permissible.getPermissionGroup();
+                    if (group == null) return "N/A";
+
+                    Config.GroupData groupData = config.groups.get(group.getName().toLowerCase());
+                    if (groupData == null || groupData.prefix == null || groupData.prefix.isEmpty()) return "N/A";
+
+                    return groupData.prefix;
+                })
+                .exceptionally(e -> {
+                    return "N/A";
+                });
+    }
 }
