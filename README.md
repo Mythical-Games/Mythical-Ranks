@@ -1,59 +1,21 @@
-# Allay Java Plugin Template
+# Mythical Ranks
 
-Welcome to the java plugin template for allay.
+Mythical Ranks is a simple groups plugin for AllayMC to enhance your ranking system. With this plugin, you can create, manage, and customize ranks, giving players unique perks and rewards as they progress through your server.
 
-## Prerequisites
+![Mythical-Games](https://github.com/Mythical-Games/Mythical-Ranks/blob/master/Screenshot_20251107_200237_com.mojang.minecraftpe.jpg) 
 
-- Java21 or higher.
-- Allay installed.
+## Features
 
-## Getting Started
+- **Customizable Ranks**: Create an unlimited number of ranks with configurable permissions.
+- **Prefix Support**: Assign custom prefixes to players based on their rank.
+- **Multiple Database Support**: Store rank data using SQLite or MongoDB, depending on your preference.
+- **Placeholders API Support**: Integration with **Placeholders API** allows you to use the `{group}` placeholder for dynamic rank display in scoreboards or other text components.
+- **API Access**: Access the plugin's data for custom development.
 
-1. **Clone this Repository**
+## Installation
 
-```bash
-git clone https://github.com/AllayMC/JavaPluginTemplate.git
-```
-   
-2. **Navigate to the Cloned Directory**
-
-```bash
-cd JavaPluginTemplate
-```
-   
-3. **Change Plugin Information**
-
-- Rename package name from `org.allaymc.javaplugintemplate` to `your.group.name.and.pluginname`
-- Edit [build.gradle.kts](build.gradle.kts) and [settings.gradle.kts](settings.gradle.kts)
-- Update API version in [build.gradle.kts](build.gradle.kts) to the latest version (see TODO).
-  You can find the latest version here: https://central.sonatype.com/artifact/org.allaymc.allay/api
-- Edit [plugin.json](src/main/resources/plugin.json)
-- Reload gradle
-   
-4. **Build and Run Your Plugin**
-
-```bash
-gradlew shadowJar
-```
-   
-This command will produce a `.jar` file in the `build/libs` directory. 
-Copy the `.jar` file to the `plugins` directory of your allay server.
-Start the allay server and check the logs to ensure your plugin loads and operates
-as expected.
-
-5. **Test Your Plugin in Gradle**
-
-```bash
-gradlew runServer
-```
-
-This command will start an allay server with your plugin loaded.
-Then close allay server by clicking `X` in the dashboard window.
-
-## Documentation
-
-For a deeper dive into the Allay API and its functionalities, please refer to our [documentation](https://docs.allaymc.org) (WIP).
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+1. Download the latest version of **Mythical Ranks** from the [releases page](#).
+2. Place the `.jar` file into the `/plugins` folder of your server.
+3. Restart your server.
+4. Configure your ranks by editing the `config.yml` file located in the `plugins/MythicalRanks` directory.
+5. Install **Placeholders API** if you want to use the `{group}` placeholder.
