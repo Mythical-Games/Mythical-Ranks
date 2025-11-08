@@ -90,15 +90,17 @@ public class SQLiteHandler implements DatabaseHandler {
     public CompletableFuture<Void> setGroup(UUID uuid, String group) {
         return CompletableFuture.runAsync(() -> {
             try (PreparedStatement ps = connection.prepareStatement(
-                    "UPDATE rank_data SET group_name = ? WHERE player_uuid = ?")) {
-                ps.setString(1, group);
-                ps.setString(2, uuid.toString());
+                    "INSERT INTO rank_data (player_uuid, group_name) VALUES (?, ?) " +
+                    "ON CONFLICT(player_uuid) DO UPDATE SET group_name = excluded.group_name")) {
+                ps.setString(1, uuid.toString());
+                ps.setString(2, group);
                 ps.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         });
     }
+
 
     // ----------------------------------------------------------
     //  Player-specific permission management
