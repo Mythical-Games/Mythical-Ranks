@@ -10,6 +10,7 @@ import org.allaymc.papi.PlaceholderProcessor;
 
 import com.mythicalgames.ranks.api.GroupsAPIManager;
 import com.mythicalgames.ranks.commands.GroupsCommand;
+import com.mythicalgames.ranks.commands.PlayerCommand;
 import com.mythicalgames.ranks.database.DatabaseHandler;
 import com.mythicalgames.ranks.database.SQLiteHandler;
 import com.mythicalgames.ranks.database.MongoDBHandler;
@@ -61,6 +62,7 @@ public class RankSystem extends Plugin {
 
         Server.getInstance().getEventBus().registerListener(new PlayerListener());
         Registries.COMMANDS.register(new GroupsCommand(this));
+        Registries.COMMANDS.register(new PlayerCommand(this));
 
         log.info("Mythical-Ranks enabled with database: {}", database.getClass().getSimpleName());
     }

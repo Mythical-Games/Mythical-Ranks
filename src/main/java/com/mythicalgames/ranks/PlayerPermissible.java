@@ -38,11 +38,6 @@ public class PlayerPermissible implements Permissible {
         return player;
     }
 
-    @Override
-    public String toString() {
-        return "PlayerPermissible [" + player.getOriginName() + " -> " + group.getName() + "]";
-    }
-
     // ---------------------------------------
     // Personal Permissions
     // ---------------------------------------
