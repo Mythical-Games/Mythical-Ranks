@@ -126,6 +126,69 @@ public class GroupsCommand extends Command {
         }
 
         return context.success();
+    })
+
+    .root()
+    // /groups addperm <group> <Permission>
+    .key("addperm")
+    .str("Group Name")
+    .msg("Permission")
+    .exec(context -> {
+        EntityPlayer sender = context.getSender().asPlayer();
+        String groupName = context.getResult(1);
+        String permissionName = context.getResult(2);
+
+        boolean success = RankHelper.addPermissionToGroup(RankSystem.getInstance().config, groupName, permissionName);
+
+        if (success) {
+            sender.sendMessage(RankSystem.getInstance().PLUGIN_PREFIX + "§aAdded permission §f" + permissionName + " §ato group §f" + groupName);
+        } else {
+            sender.sendMessage(RankSystem.getInstance().PLUGIN_PREFIX + "§cFailed to add permission! Group may not exist or already has it.");
+        }
+
+        return context.success();
+    })
+
+    .root()
+    // /groups removeperm <group> <permission>
+    .key("removeperm")
+    .str("Group Name")
+    .msg("Permission")
+    .exec(context -> {
+        EntityPlayer sender = context.getSender().asPlayer();
+        String groupName = context.getResult(1);
+        String permissionName = context.getResult(2);
+
+        boolean success = RankHelper.removePermissionFromGroup(RankSystem.getInstance().config, groupName, permissionName);
+
+        if (success) {
+            sender.sendMessage(RankSystem.getInstance().PLUGIN_PREFIX + "§aRemoved permission §f" + permissionName + " §afrom group §f" + groupName);
+        } else {
+            sender.sendMessage(RankSystem.getInstance().PLUGIN_PREFIX + "§cFailed to remove permission! Group or permission may not exist.");
+        }
+
+        return context.success();
+    })
+
+    .root()
+    // /groups listperms <group>
+    .key("listperms")
+    .str("Group Name")
+    .exec(context -> {
+        EntityPlayer sender = context.getSender().asPlayer();
+        String groupName = context.getResult(1);
+
+        List<String> perms = RankHelper.listPermissionsFromGroup(RankSystem.getInstance().config, groupName);
+
+        if (perms.isEmpty()) {
+            sender.sendMessage(RankSystem.getInstance().PLUGIN_PREFIX + "§cGroup §f" + groupName + " §chas no permissions or does not exist.");
+            return context.fail();
+        }
+
+        sender.sendMessage(RankSystem.getInstance().PLUGIN_PREFIX + "§aPermissions for §f" + groupName + "§a:");
+        perms.forEach(perm -> sender.sendMessage(" §7- §f" + perm));
+
+        return context.success();
     });
     }
 }

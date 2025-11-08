@@ -6,6 +6,7 @@ import org.allaymc.api.entity.interfaces.EntityPlayer;
 import org.allaymc.api.permission.Permission;
 import org.allaymc.api.permission.PermissionGroup;
 import org.allaymc.api.permission.PermissionGroups;
+
 import com.mythicalgames.ranks.database.DatabaseHandler;
 import org.jetbrains.annotations.Nullable;
 
@@ -114,6 +115,76 @@ public class RankHelper {
         PermissionGroup group = PermissionGroup.get(groupName);
         if (group != null) return group;
         return PermissionGroup.create(groupName, perms, parents);
+    }
+
+    public boolean addPermissionToGroup(Config config, String groupName, String permissionName) {
+        if (groupName == null || permissionName == null) return false;
+
+        Config.GroupData groupData = config.groups.get(groupName.toLowerCase());
+        if (groupData == null) {
+            log.warn("Group '{}' does not exist while trying to add permission '{}'", groupName, permissionName);
+            return false;
+        }
+
+        if (groupData.permissions.contains(permissionName)) {
+            log.info("Group '{}' already has permission '{}'", groupName, permissionName);
+            return false;
+        }
+
+        groupData.permissions.add(permissionName);
+        config.save();
+
+        PermissionGroup group = getGroup(config, groupName);
+        if (group != null) {
+            Permission perm = getOrCreatePermission(permissionName);
+            group.addPermission(perm, null);
+        }
+
+        if (RankSystem.getInstance().config.debug) log.info("Added permission '{}' to group '{}'", permissionName, groupName);
+
+        return true;
+    }
+
+    public boolean removePermissionFromGroup(Config config, String groupName, String permissionName) {
+        if (groupName == null || permissionName == null) return false;
+
+        Config.GroupData groupData = config.groups.get(groupName.toLowerCase());
+        if (groupData == null) {
+            log.warn("Group '{}' does not exist while trying to remove permission '{}'", groupName, permissionName);
+            return false;
+        }
+
+        if (!groupData.permissions.contains(permissionName)) {
+            log.info("Group '{}' does not contain permission '{}'", groupName, permissionName);
+            return false;
+        }
+
+        groupData.permissions.remove(permissionName);
+        config.save();
+
+        PermissionGroup group = getGroup(config, groupName);
+        if (group != null) {
+            Permission perm = Permission.get(permissionName);
+            if (perm != null) {
+                group.removePermission(perm, null);
+            }
+        }
+
+        if (RankSystem.getInstance().config.debug) log.info("Removed permission '{}' from group '{}'", permissionName, groupName);
+
+        return true;
+    }
+
+    public List<String> listPermissionsFromGroup(Config config, String groupName) {
+        if (groupName == null) return Collections.emptyList();
+
+        Config.GroupData groupData = config.groups.get(groupName.toLowerCase());
+        if (groupData == null) {
+            log.warn("Attempted to list permissions from non-existent group '{}'", groupName);
+            return Collections.emptyList();
+        }
+
+        return new ArrayList<>(groupData.permissions);
     }
 
     // ---------------------------------------
